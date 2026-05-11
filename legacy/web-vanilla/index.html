@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - Premium Experience</title>
+    <meta name="description" content="Um jogo de memória moderno, elegante e desafiante com design premium.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="background-overlay"></div>
+    
+    <main id="game-container">
+        <!-- HUD Section -->
+        <header class="glass-panel hud">
+            <div class="hud-item" id="score-container">
+                <span class="label">PONTUAÇÃO</span>
+                <span class="value" id="current-score">0</span>
+            </div>
+            <div class="hud-item" id="timer-container">
+                <span class="label">TEMPO</span>
+                <span class="value" id="game-timer">00:00</span>
+            </div>
+            <div class="hud-item" id="multiplier-container">
+                <span class="label">MULTI</span>
+                <span class="value x-multiplier" id="current-multiplier">x1</span>
+            </div>
+        </header>
+
+        <div class="layout-body">
+            <!-- Stats/Sidebar Section -->
+            <aside class="glass-panel sidebar left">
+                <h2>ESTATÍSTICAS</h2>
+                <div class="stats-list">
+                    <div class="stat-row">
+                        <span>Melhor Tempo</span>
+                        <span id="best-time">--:--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Melhor Pontuação</span>
+                        <span id="best-score">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Pares Encontrados</span>
+                        <span id="pairs-found">0/8</span>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button id="btn-hint" class="btn secondary">DICA (REVELAR)</button>
+                    <button id="btn-restart" class="btn secondary">REINICIAR</button>
+                </div>
+            </aside>
+
+            <!-- Game Grid -->
+            <section id="grid-area">
+                <div id="game-grid" class="card-grid-4x4">
+                    <!-- Cards will be injected by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Leaderboard/Right Sidebar -->
+            <aside class="glass-panel sidebar right">
+                <h2>RANKING</h2>
+                <div id="leaderboard" class="scrollable-list">
+                    <!-- Placeholder for top scores -->
+                    <div class="rank-item gold">
+                        <span class="pos">1</span>
+                        <span class="name">Jogador Pro</span>
+                        <span class="score">2500</span>
+                    </div>
+                    <div class="rank-item silver">
+                        <span class="pos">2</span>
+                        <span class="name">Mestre Memo</span>
+                        <span class="score">2100</span>
+                    </div>
+                    <div class="rank-item bronze">
+                        <span class="pos">3</span>
+                        <span class="name">Ninja</span>
+                        <span class="score">1850</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Footer/Settings -->
+        <footer class="bottom-bar">
+            <button id="btn-settings" class="icon-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7 2l-1.37-1.37c.3-.44.54-.92.71-1.43l1.83-.24.31-2.92-1.83-.24c-.17-.51-.41-.99-.71-1.43L19 8.5l-2.12-2.12-1.37 1.37c-.44-.3-.92-.54-1.43-.71l-.24-1.83h-2.92l-.24 1.83c-.51.17-.99.41-1.43.71L7.88 6.38 5.76 8.5l1.37 1.37c-.3.44-.54.92-.71 1.43l-1.83.24-.31 2.92 1.83.24c.17.51.41.99.71 1.43L5 15.5l2.12 2.12 1.37-1.37c.44.3.92.54 1.43.71l.24 1.83h2.92l.24-1.83c.51-.17.99-.41 1.43-.71l1.37 1.37 2.12-2.12z"/></svg>
+            </button>
+            <div class="game-info">
+                <span id="difficulty-badge">DIFICULDADE: MÉDIO</span>
+                <span id="theme-badge">TEMA: ANIMAIS</span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-hidden">
+        <div id="win-modal" class="glass-panel modal-content hidden">
+            <h1 class="glow-text">VITÓRIA!</h1>
+            <div class="win-stats">
+                <p>Tempo Final: <span id="final-time">--:--</span></p>
+                <p>Pontuação Total: <span id="final-score">0</span></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn primary" onclick="location.reload()">JOGAR NOVAMENTE</button>
+                <button class="btn secondary" id="btn-close-modal">MENU</button>
+            </div>
+        </div>
+
+        <div id="settings-modal" class="glass-panel modal-content hidden">
+            <h2>OPÇÕES</h2>
+            <div class="settings-group">
+                <label>Modo Tela Cheia</label>
+                <input type="checkbox" id="check-fullscreen">
+            </div>
+            <div class="settings-group">
+                <label>Música de Fundo</label>
+                <input type="range" min="0" max="100" value="50" id="range-music">
+            </div>
+            <div class="settings-group">
+                <label>Efeitos Sonoros</label>
+                <input type="checkbox" checked id="check-sfx">
+            </div>
+            <button class="btn secondary close-settings">FECHAR</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="game.js"></script>
+</body>
+</html>
